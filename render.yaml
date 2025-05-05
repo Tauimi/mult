@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: multi-site
+    env: python
+    plan: free
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: SECRET_KEY
+        value: dev_secret_key
