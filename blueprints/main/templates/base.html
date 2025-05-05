@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+  <nav>
+    <a href="{{ url_for('main.index') }}">Главная</a>
+    <a href="{{ url_for('main.about') }}">О нас</a>
+    <a href="{{ url_for('main.contact') }}">Контакты</a>
+    <a href="{{ url_for('main.faq') }}">FAQ</a>
+    <a href="{{ url_for('main.gallery') }}">Галерея</a>
+    <a href="{{ url_for('products.products') }}">Каталог</a>
+    {% if current_user.is_authenticated %}
+      <a href="{{ url_for('user.profile') }}">Профиль</a>
+      <a href="{{ url_for('auth.logout') }}">Выйти</a>
+    {% else %}
+      <a href="{{ url_for('auth.login') }}">Войти</a>
+      <a href="{{ url_for('auth.register') }}">Регистрация</a>
+    {% endif %}
+    <a href="{{ url_for('cart.cart') }}">Корзина</a>
+  </nav>
+  <main>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul>
+        {% for cat,msg in messages %}
+          <li class="{{cat}}">{{msg}}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
